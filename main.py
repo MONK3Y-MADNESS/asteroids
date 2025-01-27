@@ -1,21 +1,32 @@
 
 import pygame
 from constants import *
+from player import Player
 
 pygame.init()
 
 def main():
 
 	print("Starting asteroids!")
+
 	screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+	pygame.display.set_caption("Asteroids")
+	clock = pygame.time.Clock()
+	player = Player(SCREEN_WIDTH /2, SCREEN_HEIGHT / 2)
 
 	running = True
 	while running:
 		for event in pygame.event.get():
     			if event.type == pygame.QUIT:
         			return
-		screen.fill(0, rect=None, special_flags=0)
+
+		screen.fill("Black")
+		player.draw(screen)
 		pygame.display.flip()
+		dt = clock.tick(60) / 1000
+
+
+	pygame.quit()
 
 if __name__ == "__main__":
 	main()
