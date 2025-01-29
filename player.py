@@ -6,8 +6,9 @@ from shot import Shot
 
 class Player(CircleShape):
 	def __init__(self, x, y):
-		super().__init__(x, y, PLAYER_RADIUS)
+		super().__init__(x, y, PLAYER_RADIUS, pygame.Vector2(0, 0))
 		self.rotation = 0
+		self.timer = 0
 
 	def draw(self, screen):
 		pygame.draw.polygon(screen, "white", self.triangle(), 2)
@@ -22,6 +23,7 @@ class Player(CircleShape):
 
 	def update(self, dt):
 		keys = pygame.key.get_pressed()
+		self.timer = max(0, self.timer - dt)
 
 		if keys[pygame.K_d]:
 			self.rotate(dt)
@@ -32,7 +34,7 @@ class Player(CircleShape):
 		if keys[pygame.K_a]:
 			self.rotate(-dt)
 		if keys[pygame.K_SPACE]:
-			self.shoot
+			self.shoot()
 
 
 	def rotate(self, dt):
@@ -45,5 +47,9 @@ class Player(CircleShape):
 	def shoot(self):
 		direction = pygame.Vector2(0, 1).rotate(self.rotation)
 		velocity = direction * PLAYER_SHOT_SPEED
-		print("bang!")
-		return Shot(self.position.x, self.position.y, velocity)
+		if self.timer <= 0:
+			self.timer = PLAYER_SHOOT_COOLDOWN
+			return Shot(self.position.x, self.position.y, velocity)
+		else:
+			False
+

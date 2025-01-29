@@ -38,7 +38,8 @@ def main():
 					running = False
 				if event.key == pygame.K_SPACE:
 					new_shot = player.shoot()
-					shots.add(new_shot)
+					if new_shot:
+						shots.add(new_shot)
 
 
 		for obj in updatable:
@@ -55,6 +56,9 @@ def main():
 			if player.collisions(asteroid):
 				print("Game over!")
 				running = False
+
+		for shot in shots:
+			shot.draw(screen)
 
 		pygame.display.flip()
 
