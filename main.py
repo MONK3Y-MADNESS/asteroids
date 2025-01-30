@@ -36,14 +36,12 @@ def main():
 			if event.type == pygame.KEYDOWN:
 				if event.key == pygame.K_ESCAPE:
 					running = False
-				if event.key == pygame.K_SPACE:
-					new_shot = player.shoot()
-					if new_shot:
-						shots.add(new_shot)
 
 
 		for obj in updatable:
-			obj.update(dt)
+			result = obj.update(dt)
+			if result is not None:
+				shots.add(result)
 		shots.update(dt)
 
 		screen.fill("black")

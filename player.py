@@ -34,7 +34,7 @@ class Player(CircleShape):
 		if keys[pygame.K_a]:
 			self.rotate(-dt)
 		if keys[pygame.K_SPACE]:
-			self.shoot()
+			return self.shoot()
 
 
 	def rotate(self, dt):
@@ -45,11 +45,11 @@ class Player(CircleShape):
 		self.position += forward * PLAYER_SPEED * dt
 
 	def shoot(self):
-		direction = pygame.Vector2(0, 1).rotate(self.rotation)
-		velocity = direction * PLAYER_SHOT_SPEED
 		if self.timer <= 0:
 			self.timer = PLAYER_SHOOT_COOLDOWN
+			direction = pygame.Vector2(0, 1).rotate(self.rotation)
+			velocity = direction * PLAYER_SHOT_SPEED
 			return Shot(self.position.x, self.position.y, velocity)
 		else:
-			False
+			return None
 
